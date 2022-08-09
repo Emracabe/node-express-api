@@ -6,13 +6,34 @@ const getPeople = (req, res) => {
 
 const createPerson = (req, res) => {
    const {name} = req.body;
-   
-    // if (!name) {
-    //     return res.status(404).json({success: false, msg: 'please provide some credentials'})
-    // }
 
-    // people.push({id: people.length + 1, name: name});
+    if (!name) {
+        return res.status(404).json({success: false, msg: 'please provide some credentials'})
+    }
+
+    people.push({id: people.length + 1, name: name});
     res.status(201).json({success: true, data: people});
 }
 
-module.exports = {getPeople, createPerson}
+const updatePerson = (req, res) => {
+    const {id} = req.params;
+    const {name} = req.body;
+
+    const person = people.map(person => person.id === Number(id));
+
+    if (!person) {
+        return res.status(401).json({success: false, msg: `No person with ${id}`})
+    }
+
+    const newPeople = people.map(person => {
+        if (person.id === Number(id)) {
+            person.name = name;
+        }
+
+        return person;
+    })
+
+    res.status(201).json({success: true, data: newPeople});
+}
+
+module.exports = {getPeople, createPerson, updatePerson}
