@@ -57,4 +57,4 @@ const deletePerson = (req, res) => {
   res.send(200).json({ success: true, data: newPeople });
 };
 
-module.exports = { getPeople, createPerson, updatePerson };
+module.exports = { getPeople, createPerson, updatePerson, deletePerson};
