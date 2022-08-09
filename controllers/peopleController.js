@@ -5,42 +5,56 @@ const getPeople = (req, res) => {
 };
 
 const createPerson = (req, res) => {
-   const {name} = req.body;
+  const { name } = req.body;
 
-    if (!name) {
-        return res.status(404).json({success: false, msg: 'please provide some credentials'})
-    }
+  if (!name) {
+    return res
+      .status(404)
+      .json({ success: false, msg: "please provide some credentials" });
+  }
 
-    people.push({id: people.length + 1, name: name});
-    res.status(201).json({success: true, data: people});
-}
+  people.push({ id: people.length + 1, name: name });
+  res.status(201).json({ success: true, data: people });
+};
 
 const updatePerson = (req, res) => {
-    const {id} = req.params;
-    const {name} = req.body;
+  const { id } = req.params;
+  const { name } = req.body;
 
-    const person = people.find(person => person.id === Number(id));
+  const person = people.find((person) => person.id === Number(id));
 
-    if (!person) {
-        return res.status(401).json({success: false, msg: `No person with ${id}`})
+  if (!person) {
+    return res
+      .status(401)
+      .json({ success: false, msg: `No person with ${id}` });
+  }
+
+  const newPeople = people.map((person) => {
+    if (person.id === Number(id)) {
+      person.name = name;
     }
 
-    const newPeople = people.map(person => {
-        if (person.id === Number(id)) {
-            person.name = name;
-        }
+    return person;
+  });
 
-        return person;
-    })
-
-    res.status(201).json({success: true, data: newPeople});
-}
+  res.status(201).json({ success: true, data: newPeople });
+};
 
 const deletePerson = (req, res) => {
-    const {id} = req.params;
-    const {name} = req.body;
+  const { id } = req.params;
+  const { name } = req.body;
 
-    const person = people.find(person => person.id === Number(id))
-}
+  const person = people.find((person) => person.id === Number(id));
 
-module.exports = {getPeople, createPerson, updatePerson}
+  if (!person) {
+    return res
+      .status(401)
+      .json({ success: false, msg: `No person with ${id}` });
+  }
+
+  const newPeople = people.filter((person) => person.id !== id);
+
+  res.send(200).json({ success: true, data: newPeople });
+};
+
+module.exports = { getPeople, createPerson, updatePerson };
