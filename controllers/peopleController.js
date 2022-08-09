@@ -5,14 +5,14 @@ const getPeople = (req, res) => {
 };
 
 const createPerson = (req, res) => {
-    const {name} = req.body;
+   const {name} = req.body;
+   
+    // if (!name) {
+    //     return res.status(404).json({success: false, msg: 'please provide some credentials'})
+    // }
 
-    if (!name) {
-        return res.status(404).json({success: false, msg: 'please provide some credentials'})
-    }
-
-    people.push({id: people.length + 1, name: name});
+    // people.push({id: people.length + 1, name: name});
     res.status(201).json({success: true, data: people});
 }
 
-module.exports = {getPeople}
+module.exports = {getPeople, createPerson}
