@@ -19,7 +19,7 @@ const updatePerson = (req, res) => {
     const {id} = req.params;
     const {name} = req.body;
 
-    const person = people.map(person => person.id === Number(id));
+    const person = people.find(person => person.id === Number(id));
 
     if (!person) {
         return res.status(401).json({success: false, msg: `No person with ${id}`})
@@ -34,6 +34,13 @@ const updatePerson = (req, res) => {
     })
 
     res.status(201).json({success: true, data: newPeople});
+}
+
+const deletePerson = (req, res) => {
+    const {id} = req.params;
+    const {name} = req.body;
+
+    const person = people.find(person => person.id === Number(id))
 }
 
 module.exports = {getPeople, createPerson, updatePerson}
